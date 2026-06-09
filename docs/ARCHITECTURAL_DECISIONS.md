@@ -30,6 +30,16 @@ When PRD and TRD conflict, PRD is treated as the higher authority.
   - `https://sentra.airforce.lk/...`
 - Reason: PRD wording and valid URI design.
 
+8. Deep link package compatibility
+- Conflict: `app_links` versions compatible with the current SDK caused Android release build failures, while newer fixed versions require a newer Dart/Flutter toolchain than available.
+- Decision: Temporarily replace runtime deep-link integration with a stub service and remove `app_links` dependency until toolchain upgrade.
+- Reason: Preserve release buildability and keep deep linking as a planned enhancement without blocking core app delivery.
+
+9. Android local Gradle/JDK stability
+- Conflict: Local Android release builds failed with `JdkImageTransform` using Android Studio JBR/JDK path combinations.
+- Decision: Pin Gradle JDK to `C:\SDK\jdk-17`, raise compile SDK to 35, and add local preflight checks for SDK/JDK alignment.
+- Reason: Restore deterministic local release artifact generation and reduce environment-specific build breaks.
+
 5. Offline UX wording
 - Conflict: PRD says offline screen, TRD says offline page.
 - Decision: Implement as native offline screen behavior.

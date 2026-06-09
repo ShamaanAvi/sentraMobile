@@ -4,15 +4,19 @@ abstract interface class WebViewService {
 }
 
 class SentraWebViewService implements WebViewService {
-  SentraWebViewService({required this.host});
+  SentraWebViewService({
+    required this.initialUrl,
+    required this.allowedHosts,
+  });
 
-  final String host;
+  final String initialUrl;
+  final Set<String> allowedHosts;
 
   @override
-  Uri get initialUri => Uri.parse('https://$host');
+  Uri get initialUri => Uri.parse(initialUrl);
 
   @override
   bool isAllowedHost(Uri uri) {
-    return uri.host == host;
+    return allowedHosts.contains(uri.host.toLowerCase());
   }
 }

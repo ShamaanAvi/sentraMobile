@@ -12,14 +12,19 @@ class AppEnvironment {
   static const String _defaultBaseUrl = 'https://sentra.airforce.lk';
 
   factory AppEnvironment.fromDefines() {
-    const baseUrl = String.fromEnvironment(
+    const definedBaseUrl = String.fromEnvironment(
       'SENTRA_BASE_URL',
       defaultValue: _defaultBaseUrl,
     );
 
-    return const AppEnvironment(
+    final parsed = Uri.tryParse(definedBaseUrl);
+    final isSecure =
+        parsed != null && parsed.hasScheme && parsed.scheme == 'https';
+    final normalizedBaseUrl = isSecure ? definedBaseUrl : _defaultBaseUrl;
+
+    return AppEnvironment(
       flavor: AppFlavor.production,
-      baseUrl: baseUrl,
+      baseUrl: normalizedBaseUrl,
     );
   }
 }

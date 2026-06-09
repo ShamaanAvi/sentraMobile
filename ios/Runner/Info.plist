@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Sentra Mobile</string>
+	<string>SENTRA</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>sentra_mobile</string>
+	<string>SENTRA</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -52,6 +52,8 @@
 	<string>SENTRA needs photo library access for image uploads.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>SENTRA saves downloaded media for user access.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>SENTRA may use microphone access when capturing media uploads.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -64,6 +66,16 @@
 				<string>sentra</string>
 			</array>
 		</dict>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mailto</string>
+		<string>tel</string>
+		<string>sms</string>
+		<string>whatsapp</string>
+		<string>maps</string>
+		<string>youtube</string>
+		<string>geo</string>
 	</array>
 </dict>
 </plist>
