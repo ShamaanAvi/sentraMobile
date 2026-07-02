@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -74,7 +75,6 @@ class _WebViewHostScreenState extends ConsumerState<WebViewHostScreen> {
   }
 
   Future<void> _handleDeepLink(Uri incomingUri) async {
-    final webViewService = ref.read(webViewServiceProvider);
     final externalUrlService = ref.read(externalUrlServiceProvider);
 
     final resolvedInternalUri = _resolveInternalDeepLinkUri(incomingUri);
@@ -358,14 +358,16 @@ class _WebViewHostScreenState extends ConsumerState<WebViewHostScreen> {
                       );
                     },
                     onReceivedServerTrustAuthRequest:
-                        (controller, challenge) async {
-                      notifier.markError(
-                        'Secure connection validation failed.',
-                      );
-                      return ServerTrustAuthResponse(
-                        action: ServerTrustAuthResponseAction.CANCEL,
-                      );
-                    },
+                        defaultTargetPlatform == TargetPlatform.android
+                            ? (controller, challenge) async {
+                                notifier.markError(
+                                  'Secure connection validation failed.',
+                                );
+                                return ServerTrustAuthResponse(
+                                  action: ServerTrustAuthResponseAction.CANCEL,
+                                );
+                              }
+                            : null,
                     onDownloadStartRequest: (controller, request) async {
                       await _handleDownload(request);
                     },

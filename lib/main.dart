@@ -7,7 +7,9 @@ import 'package:sentra_mobile/app/app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
+  if (kDebugMode && defaultTargetPlatform == TargetPlatform.android) {
+    await InAppWebViewController.setWebContentsDebuggingEnabled(true);
+  }
   runApp(
     const ProviderScope(
       child: SentraApp(),
