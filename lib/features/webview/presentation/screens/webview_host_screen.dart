@@ -160,6 +160,29 @@ class _WebViewHostScreenState extends ConsumerState<WebViewHostScreen> {
     );
   }
 
+  Future<void> _retryFromOfflineState() async {
+    final connectivityService = ref.read(connectivityServiceProvider);
+    final isOnline = await connectivityService.isOnline();
+
+    if (!mounted) {
+      return;
+    }
+
+    ref.invalidate(isOnlineProvider);
+
+    if (!isOnline) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Still offline. Please check your connection.'),
+        ),
+      );
+      return;
+    }
+
+    ref.read(webViewStateProvider.notifier).retry();
+    await _reloadInitialUrl();
+  }
+
   Future<void> _handleDownload(DownloadStartRequest request) async {
     final downloadNotifier = ref.read(downloadNotifierProvider.notifier);
     final downloadService = ref.read(downloadServiceProvider);
@@ -283,10 +306,7 @@ class _WebViewHostScreenState extends ConsumerState<WebViewHostScreen> {
               if (!isOnline) {
                 return AppErrorView(
                   message: 'No internet connection. Please reconnect and retry.',
-                  onRetry: () async {
-                    notifier.retry();
-                    await _reloadInitialUrl();
-                  },
+                  onRetry: _retryFromOfflineState,
                 );
               }
 
